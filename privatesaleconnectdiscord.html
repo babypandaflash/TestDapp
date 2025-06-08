@@ -5,12 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Private Sale | BabyPanda Flash</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: Arial, sans-serif;
       background-color: #1a1a1a;
@@ -19,7 +14,6 @@
       display: flex;
       flex-direction: column;
     }
-
     .navbar {
       display: flex;
       justify-content: center;
@@ -28,17 +22,8 @@
       padding: 10px 0;
       position: relative;
     }
-
-    .logo-button {
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-
-    .logo-button img {
-      height: 50px;
-    }
-
+    .logo-button { background: none; border: none; cursor: pointer; }
+    .logo-button img { height: 50px; }
     .menu {
       display: none;
       flex-direction: column;
@@ -53,7 +38,6 @@
       border-radius: 8px;
       overflow: hidden;
     }
-
     .menu a {
       padding: 15px;
       text-align: center;
@@ -62,11 +46,7 @@
       border-bottom: 1px solid #444;
       transition: background 0.3s;
     }
-
-    .menu a:hover {
-      background-color: #444;
-    }
-
+    .menu a:hover { background-color: #444; }
     .container {
       display: flex;
       justify-content: center;
@@ -76,20 +56,17 @@
       padding: 20px;
       text-align: center;
     }
-
     .section-title {
       font-size: 22px;
       color: #00ff9f;
       margin-bottom: 10px;
     }
-
     .section-desc {
       font-size: 16px;
       color: #cccccc;
       max-width: 500px;
       margin-bottom: 30px;
     }
-
     #connectDiscordBtn {
       background-color: #7289da;
       color: white;
@@ -101,17 +78,12 @@
       transition: background 0.3s;
       margin-bottom: 20px;
     }
-
-    #connectDiscordBtn:hover {
-      background-color: #5b6eae;
-    }
-
+    #connectDiscordBtn:hover { background-color: #5b6eae; }
     #discordInfo {
       margin: 10px 0;
       font-size: 14px;
       color: #00ff9f;
     }
-
     input[type="text"] {
       width: 100%;
       max-width: 400px;
@@ -121,7 +93,6 @@
       font-size: 16px;
       margin-bottom: 15px;
     }
-
     button#submitBtn {
       background-color: #00ff9f;
       color: #000;
@@ -133,17 +104,12 @@
       transition: background 0.3s;
       margin-top: 10px;
     }
-
-    button#submitBtn:hover {
-      background-color: #00e68a;
-    }
-
+    button#submitBtn:hover { background-color: #00e68a; }
     #message {
       margin-top: 15px;
       font-size: 14px;
       color: #00ff9f;
     }
-
     footer {
       text-align: center;
       padding: 20px;
@@ -151,7 +117,6 @@
       color: #999;
       font-size: 14px;
     }
-
     @media (min-width: 600px) {
       .menu {
         flex-direction: row;
@@ -163,7 +128,6 @@
         border-radius: 0;
         max-width: none;
       }
-
       .menu a {
         border: none;
         padding: 10px 20px;
@@ -173,7 +137,6 @@
 </head>
 <body>
 
-  <!-- Navbar -->
   <nav class="navbar">
     <button class="logo-button" onclick="toggleMenu()">
       <img src="URL_LOGO_KAMU" alt="Logo Menu" />
@@ -188,7 +151,6 @@
     </div>
   </nav>
 
-  <!-- Main Content -->
   <div class="container">
     <h2 class="section-title">📥 Submit Wallet Private Sale</h2>
     <p class="section-desc">
@@ -204,20 +166,18 @@
     <div id="message"></div>
   </div>
 
-  <!-- Footer -->
   <footer>
     © 2025 BabyPanda Flash. All rights reserved.
   </footer>
 
-  <!-- Script -->
   <script>
     function toggleMenu() {
       const menu = document.getElementById("menu");
       menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
     }
 
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbzZKMIsuiRdCWgt-_5x1ah62ahVA7qeXJsu2kt76c8uITwVa3cjXyrjShSpPo65JRLU6w/exec"; // Ganti dengan Web App URL Anda
-    const clientId = "1380972238249005077"; // Ganti dengan Client ID Anda
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbzZKMIsuiRdCWgt-_5x1ah62ahVA7qeXJsu2kt76c8uITwVa3cjXyrjShSpPo65JRLU6w/exec";
+    const clientId = "1380972238249005077";
 
     let discordUsername = "";
     let discordId = "";
@@ -233,69 +193,62 @@
       try {
         const res = await fetch(webAppUrl);
         const data = await res.json();
-        const count = data.count;
+        const count = data.count || 0;
 
-        const submitBtn = document.getElementById('submitBtn');
-        const connectBtn = document.getElementById('connectDiscordBtn');
         if (count >= 700) {
-          submitBtn.disabled = true;
-          connectBtn.disabled = true;
-          submitBtn.textContent = "Limit Reached (0/700)";
-          submitBtn.style.backgroundColor = "#555";
-          submitBtn.style.cursor = "not-allowed";
-          connectBtn.style.backgroundColor = "#555";
-          connectBtn.style.cursor = "not-allowed";
+          document.getElementById("submitBtn").disabled = true;
+          document.getElementById("connectDiscordBtn").disabled = true;
+          document.getElementById("submitBtn").textContent = "Limit Reached (700/700)";
         }
       } catch (err) {
-        console.error("Failed to check wallet count", err);
+        console.error("Error checking limit", err);
       }
     }
 
     async function submitWallet() {
-      const walletInput = document.getElementById("walletInput");
+      const wallet = document.getElementById("walletInput").value.trim();
       const message = document.getElementById("message");
-      const wallet = walletInput.value.trim();
 
       if (!wallet) {
-        message.textContent = "Please enter a valid wallet address.";
+        message.textContent = "❌ Please enter your wallet address.";
         return;
       }
 
       if (!discordUsername || !discordId) {
-        message.textContent = "Please connect your Discord first.";
+        message.textContent = "❌ Please connect Discord first.";
         return;
       }
 
       try {
+        const formData = new FormData();
+        formData.append("wallet", wallet);
+        formData.append("discordUsername", discordUsername);
+        formData.append("discordId", discordId);
+
         const res = await fetch(webAppUrl, {
           method: "POST",
-          body: JSON.stringify({ wallet, discordUsername, discordId }),
-          headers: {
-            "Content-Type": "application/json"
-          }
+          body: formData
         });
 
         const result = await res.json();
 
-        if (result.status === "success") {
+        if (res.ok && result.status === "success") {
           message.textContent = "✅ Submission successful!";
-          walletInput.value = "";
+          document.getElementById("walletInput").value = "";
           await checkWalletLimit();
         } else if (result.status === "full") {
-          message.textContent = "❌ Submission closed: limit reached.";
-          document.getElementById("submitBtn").disabled = true;
-          document.getElementById("connectDiscordBtn").disabled = true;
+          message.textContent = "❌ Limit reached. Submission closed.";
         } else {
-          message.textContent = "❌ Failed to submit. Please try again.";
+          message.textContent = "❌ Submission failed.";
         }
-      } catch (error) {
-        console.error("Error submitting", error);
-        message.textContent = "❌ Error occurred. Try again later.";
+      } catch (err) {
+        console.error("Submission error", err);
+        document.getElementById("message").textContent = "❌ Error occurred. Try again.";
       }
     }
 
     window.onload = async () => {
-      checkWalletLimit();
+      await checkWalletLimit();
 
       if (window.location.hash.includes("access_token")) {
         const hash = window.location.hash.substring(1);
@@ -304,17 +257,15 @@
 
         if (token) {
           const userRes = await fetch("https://discord.com/api/users/@me", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` }
           });
+
           const userData = await userRes.json();
           discordUsername = `${userData.username}#${userData.discriminator}`;
           discordId = userData.id;
 
           document.getElementById("discordInfo").textContent = `✅ Connected as ${discordUsername}`;
           document.getElementById("connectDiscordBtn").disabled = true;
-          document.getElementById("connectDiscordBtn").style.backgroundColor = "#444";
         }
       }
 
