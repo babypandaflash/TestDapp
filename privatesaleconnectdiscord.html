@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Private Sale | BabyPanda Flash</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1a1a1a;
+      color: white;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #2c2c2c;
+      padding: 10px 0;
+      position: relative;
+    }
+
+    .logo-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .logo-button img {
+      height: 50px;
+    }
+
+    .menu {
+      display: none;
+      flex-direction: column;
+      background-color: #333;
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 400px;
+      z-index: 999;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .menu a {
+      padding: 15px;
+      text-align: center;
+      color: white;
+      text-decoration: none;
+      border-bottom: 1px solid #444;
+      transition: background 0.3s;
+    }
+
+    .menu a:hover {
+      background-color: #444;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      flex: 1;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 22px;
+      color: #00ff9f;
+      margin-bottom: 10px;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: #cccccc;
+      max-width: 500px;
+      margin-bottom: 30px;
+    }
+
+    #connectDiscordBtn {
+      background-color: #7289da;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-bottom: 20px;
+    }
+
+    #connectDiscordBtn:hover {
+      background-color: #5b6eae;
+    }
+
+    #discordInfo {
+      margin: 10px 0;
+      font-size: 14px;
+      color: #00ff9f;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    button#submitBtn {
+      background-color: #00ff9f;
+      color: #000;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 10px;
+    }
+
+    button#submitBtn:hover {
+      background-color: #00e68a;
+    }
+
+    #message {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #00ff9f;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #2c2c2c;
+      color: #999;
+      font-size: 14px;
+    }
+
+    @media (min-width: 600px) {
+      .menu {
+        flex-direction: row;
+        position: static;
+        transform: none;
+        justify-content: center;
+        display: flex !important;
+        background: none;
+        border-radius: 0;
+        max-width: none;
+      }
+
+      .menu a {
+        border: none;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <button class="logo-button" onclick="toggleMenu()">
+      <img src="URL_LOGO_KAMU" alt="Logo Menu" />
+    </button>
+    <div class="menu" id="menu">
+      <a href="index.html">Home</a>
+      <a href="privatesale.html">Private Sale</a>
+      <a href="presale.html">Presale</a>
+      <a href="publicsale.html">Public Sale</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="tokenomics.html">Tokenomics</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h2 class="section-title">📥 Submit Wallet Private Sale</h2>
+    <p class="section-desc">
+      Whitelisted wallets can participate in our exclusive private sale event.<br>
+      Connect Discord and enter your Solana wallet address.
+    </p>
+
+    <button id="connectDiscordBtn">🔗 Connect Discord</button>
+    <div id="discordInfo"></div>
+
+    <input type="text" id="walletInput" placeholder="Enter your Solana wallet address" />
+    <button id="submitBtn">Submit</button>
+    <div id="message"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 BabyPanda Flash. All rights reserved.
+  </footer>
+
+  <!-- Script -->
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbzZKMIsuiRdCWgt-_5x1ah62ahVA7qeXJsu2kt76c8uITwVa3cjXyrjShSpPo65JRLU6w/exec"; // Ganti dengan Web App URL Anda
+    const clientId = "YOUR_DISCORD_CLIENT_ID"; // Ganti dengan Client ID Anda
+
+    let discordUsername = "";
+    let discordId = "";
+
+    document.getElementById("connectDiscordBtn").addEventListener("click", () => {
+      const redirectUri = encodeURIComponent(window.location.href.split('#')[0]);
+      const scope = "identify";
+      const discordAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}`;
+      window.location.href = discordAuthUrl;
+    });
+
+    async function checkWalletLimit() {
+      try {
+        const res = await fetch(webAppUrl);
+        const data = await res.json();
+        const count = data.count;
+
+        const submitBtn = document.getElementById('submitBtn');
+        const connectBtn = document.getElementById('connectDiscordBtn');
+        if (count >= 700) {
+          submitBtn.disabled = true;
+          connectBtn.disabled = true;
+          submitBtn.textContent = "Limit Reached (0/700)";
+          submitBtn.style.backgroundColor = "#555";
+          submitBtn.style.cursor = "not-allowed";
+          connectBtn.style.backgroundColor = "#555";
+          connectBtn.style.cursor = "not-allowed";
+        }
+      } catch (err) {
+        console.error("Failed to check wallet count", err);
+      }
+    }
+
+    async function submitWallet() {
+      const walletInput = document.getElementById("walletInput");
+      const message = document.getElementById("message");
+      const wallet = walletInput.value.trim();
+
+      if (!wallet) {
+        message.textContent = "Please enter a valid wallet address.";
+        return;
+      }
+
+      if (!discordUsername || !discordId) {
+        message.textContent = "Please connect your Discord first.";
+        return;
+      }
+
+      try {
+        const res = await fetch(webAppUrl, {
+          method: "POST",
+          body: JSON.stringify({ wallet, discordUsername, discordId }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        const result = await res.json();
+
+        if (result.status === "success") {
+          message.textContent = "✅ Submission successful!";
+          walletInput.value = "";
+          await checkWalletLimit();
+        } else if (result.status === "full") {
+          message.textContent = "❌ Submission closed: limit reached.";
+          document.getElementById("submitBtn").disabled = true;
+          document.getElementById("connectDiscordBtn").disabled = true;
+        } else {
+          message.textContent = "❌ Failed to submit. Please try again.";
+        }
+      } catch (error) {
+        console.error("Error submitting", error);
+        message.textContent = "❌ Error occurred. Try again later.";
+      }
+    }
+
+    window.onload = async () => {
+      checkWalletLimit();
+
+      if (window.location.hash.includes("access_token")) {
+        const hash = window.location.hash.substring(1);
+        const params = new URLSearchParams(hash);
+        const token = params.get("access_token");
+
+        if (token) {
+          const userRes = await fetch("https://discord.com/api/users/@me", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const userData = await userRes.json();
+          discordUsername = `${userData.username}#${userData.discriminator}`;
+          discordId = userData.id;
+
+          document.getElementById("discordInfo").textContent = `✅ Connected as ${discordUsername}`;
+          document.getElementById("connectDiscordBtn").disabled = true;
+          document.getElementById("connectDiscordBtn").style.backgroundColor = "#444";
+        }
+      }
+
+      document.getElementById("submitBtn").addEventListener("click", submitWallet);
+    };
+  </script>
+</body>
+</html>
