@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Solana DApp</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1a1a1a;
+      color: white;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #2c2c2c;
+      padding: 10px 0;
+      position: relative;
+    }
+
+    .logo-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .logo-button img {
+      height: 50px;
+    }
+
+    .menu {
+      display: none;
+      flex-direction: column;
+      background-color: #333;
+      position: absolute;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 400px;
+      z-index: 999;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .menu a {
+      padding: 15px;
+      text-align: center;
+      color: white;
+      text-decoration: none;
+      border-bottom: 1px solid #444;
+      transition: background 0.3s;
+    }
+
+    .menu a:hover {
+      background-color: #444;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      flex: 1;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .promo-text {
+      max-width: 500px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .promo-text h2 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: #00ff9f;
+    }
+
+    .promo-text p {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #cccccc;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    button.submit-btn,
+    .action-btn {
+      background-color: #00ff9f;
+      color: black;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+      width: 100%;
+      max-width: 400px;
+      margin: 10px auto;
+      display: block;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    button.submit-btn:hover,
+    .action-btn:hover {
+      background-color: #00cc80;
+    }
+
+    .disabled {
+      pointer-events: none;
+      background-color: grey !important;
+      color: #999 !important;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #00ff9f;
+      word-break: break-word;
+    }
+
+    #taskSection {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+      gap: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #2c2c2c;
+      color: #999;
+      font-size: 14px;
+    }
+
+    @media (min-width: 600px) {
+      .menu {
+        flex-direction: row;
+        position: static;
+        transform: none;
+        justify-content: center;
+        display: flex !important;
+        background: none;
+        border-radius: 0;
+        max-width: none;
+      }
+
+      .menu a {
+        border: none;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <button class="logo-button" onclick="toggleMenu()">
+      <img src="URL_LOGO_KAMU" alt="Logo Menu" />
+    </button>
+    <div class="menu" id="menu">
+      <a href="index.html">Home</a>
+      <a href="privatesaleconnectdiscord.html">Private Sale</a>
+      <a href="presale.html">Presale</a>
+      <a href="publicsale.html">Public Sale</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="tokenomics.html">Tokenomics</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="promo-text">
+      <h2>Join Our Community Early</h2>
+      <p>
+        Be among the first to enter our vibrant community and unlock exclusive rewards.<br>
+        Early supporters will receive special gifts and access to premium content before anyone else!
+      </p>
+    </div>
+
+    <div id="walletSection">
+      <input type="text" id="walletInput" placeholder="Enter your Solana wallet address"/>
+      <button class="submit-btn" onclick="submitAddress()">Submit</button>
+      <div id="message"></div>
+    </div>
+
+    <div id="taskSection">
+      <a href="https://discord.com/invite/YOUR_DISCORD_LINK" target="_blank">
+        <button class="action-btn" id="discordBtn" onclick="completeTask(this, 'discord')">Join Discord Community</button>
+      </a>
+      <a href="https://twitter.com/YOUR_TWITTER_HANDLE" target="_blank">
+        <button class="action-btn" id="twitterBtn" onclick="completeTask(this, 'twitter')">Follow Twitter</button>
+      </a>
+      <a href="https://t.me/YOUR_TELEGRAM_ANNOUNCEMENT" target="_blank">
+        <button class="action-btn" id="telegramAnnounceBtn" onclick="completeTask(this, 'telegram_announcement')">Join Telegram Announcement</button>
+      </a>
+      <a href="https://t.me/YOUR_TELEGRAM_DISCUSSION" target="_blank">
+        <button class="action-btn" id="telegramDiscussBtn" onclick="completeTask(this, 'telegram_discussion')">Join Telegram Discussion</button>
+      </a>
+      <a href="https://instagram.com/YOUR_INSTAGRAM" target="_blank">
+        <button class="action-btn" id="instagramBtn" onclick="completeTask(this, 'instagram')">Follow Instagram</button>
+      </a>
+      <a href="https://youtube.com/@YOUR_YOUTUBE_CHANNEL" target="_blank">
+        <button class="action-btn" id="youtubeBtn" onclick="completeTask(this, 'youtube')">Subscribe YouTube Channel</button>
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 BabyPanda Flash. All rights reserved.
+  </footer>
+
+  <script>
+    const sheetURL = "https://script.google.com/macros/s/PASTE_WEB_APP_URL_HERE/exec";
+
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    function submitAddress() {
+      const address = document.getElementById('walletInput').value.trim();
+      const messageBox = document.getElementById('message');
+
+      if (!address || address.length < 32 || address.length > 44) {
+        messageBox.style.color = 'red';
+        messageBox.innerText = "Invalid wallet address!";
+        return;
+      }
+
+      localStorage.setItem('walletAddress', address);
+      messageBox.style.color = '#00ff9f';
+      messageBox.innerText = "Wallet submitted successfully.";
+
+      document.getElementById('walletSection').style.display = 'none';
+      document.getElementById('taskSection').style.display = 'flex';
+    }
+
+    function completeTask(button, platform) {
+      button.classList.add("disabled");
+      const data = {
+        wallet: localStorage.getItem('walletAddress'),
+        platform: platform,
+        timestamp: new Date().toISOString()
+      };
+
+      fetch(sheetURL, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => res.json())
+      .then(response => {
+        console.log("Task completed and saved:", response);
+      })
+      .catch(err => {
+        console.error("Error saving to sheet:", err);
+      });
+    }
+  </script>
+
+</body>
+</html>
